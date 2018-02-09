@@ -1,0 +1,27 @@
+* faketmp: or how to pass buffers after shelling out
+
+faketmp is a library for people writing go who often need to create temp files to pass data to
+command line applications. A common usecase might be creating thumbnails from a http upload, or
+processing data in by spawning a helper process with lower privileges.
+
+
+
+#+BEGIN_SRC go :imports '("os/exec" "strings" "github.com/shanemhansen/faketmp" "log" "fmt")
+func main() { 
+	rdr := strings.NewReader("Hello, world!\n")
+	tmpfile, err := faketmp.FakeTemp(rdr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer tmpfile.Close() // Needed to clean up pipes and return error from copy.
+	cat, _ := exec.LookPath("sha1sum")
+	cmd := exec.Command(cat, tmpfile.Name())
+	tmpfile.ExtraFiles(cmd)
+	data, err := cmd.CombinedOutput()
+	fmt.Println(string(data))
+}
+#+END_SRC
+
+#+RESULTS:
+: 09fac8dbfd27bd9b4d23a00eb648aa751789536d  /proc/self/fd/3
+
