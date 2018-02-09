@@ -6,10 +6,10 @@ processing data in by spawning a helper process with lower privileges.
 
 
 
-#+BEGIN_SRC go :imports '("os/exec" "strings" "github.com/shanemhansen/faketmp" "log" "fmt")
+#+BEGIN_SRC go :imports '("os/exec" "strings" "github.com/shanemhansen/faketmpfile" "log" "fmt")
 func main() { 
 	rdr := strings.NewReader("Hello, world!\n")
-	tmpfile, err := faketmp.FakeTemp(rdr)
+	tmpfile, err := faketmpfile.FakeTemp(rdr)
 	if err != nil {
 		log.Fatal(err)
 	}

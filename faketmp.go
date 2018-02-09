@@ -1,6 +1,6 @@
 // Package faketmp is a library that turns an io.Reader into an *os.File which
 // has a name in the linux proc filesystem. The primary use case is to pass in memory buffers or readers to legacy apps which require filename arguments.
-package faketmp
+package faketmpfile
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package faketmp
+package faketmpfile
 
 import (
 	"log"
